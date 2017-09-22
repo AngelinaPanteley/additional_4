@@ -1,18 +1,33 @@
-//var Big = require('big.js');
-//Big.E_POS = 100;
-//Big.DP = 100;
 module.exports = function multiply(first, second) {
-var bigdecimal = require("bigdecimal");
-//function multiply(first, second) {
-  //var x=new Big(+first);
-  //var y=new Big(+second);
-  //var z=new Big(x*y);
-  //return z.toString();
-  var x = new bigdecimal.BigDecimal(+first);
-  var y = new bigdecimal.BigDecimal(+second);
-  var z = bigdecimal.BigDecimal(0);
-  z = x.multiply(y);
-  return z.toBigInteger().toString();
+  var splitFirst = first.split("");
+  var splitSecond = second.split("");
+  var reverseFirst = splitFirst.reverse(); 
+  var reverseSecond = splitSecond.reverse(); 
+  var productLength=reverseFirst.length+reverseSecond.length;
+  var firstLength=reverseFirst.length;
+  var secondLength=reverseSecond.length;
+  var product=new Array(productLength+1);
+  for(var i=0;i<productLength+1;i++) {
+    product[i]=0;
+  }
+  for(var i=0;i<firstLength;i++) {
+    for(var j=0;j<secondLength;j++) {
+      product[i+j]+=(+reverseFirst[i])*(+reverseSecond[j]);
+    }
+  }
+  for (var i = 0; i< productLength; i++)
+  {
+      product[i + 1] += Math.floor(product[i] / 10);
+      product[i] %= 10;
+      product[i]=String(product[i]);
+  }
+  while(product[productLength]===0||product[productLength]==='0'){
+    productLength--;
+    product.splice(productLength+1,1);
+  }
+  var result="";
+  for(var i=productLength;i>=0;i--) {
+    result+=product[i];
+  }
+  return result;
 }
-
-//multiply('329568934658432659586', '58379426534596');
